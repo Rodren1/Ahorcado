@@ -21,26 +21,29 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         dibujaImg();
         //inicializo el jLabel en el q se muestran los guiones bajos
         String auxiliar = "";
-        for (int i=0; i < palabraOculta.length(); i++){
+        for (int i = 0; i < palabraOculta.length(); i++) {
             auxiliar = auxiliar + "_ ";
         }
         jLabel1.setText(auxiliar);
     }
-    
+
     //va a seleccionar una palabra al azar de un array de palabras
-    private String eligePalabra(){
-        String [] listaPalabras = {"HOLA", "VLADINIGGA", "BORREGUITO", "BABYYODA"};
+    private String eligePalabra() {
+        String[] listaPalabras = {"HOLA", "VLADINIGGA", "BORREGUITO", "BABYYODA"};
         Random aleatorio = new Random();
-        int posicion = aleatorio.nextInt(listaPalabras.length);      
+        int posicion = aleatorio.nextInt(listaPalabras.length);
         return listaPalabras[posicion].toUpperCase();
     }
-    
-    int fallos = 0; //guarda el numero de fallos 
+
+    int fallos = 0; //guarda el numero de fallos
+    boolean gameOver = false;
     String palabraOculta = eligePalabra();
 
     private void chequeaBoton(JButton boton) {
-        boton.setEnabled(false);
-        chequeaLetra(boton.getText());
+        if (!gameOver) {
+            boton.setEnabled(false);
+            chequeaLetra(boton.getText());
+        }
     }
 
     private void chequeaLetra(String letra) {
@@ -57,9 +60,13 @@ public class VentanaAhorcado extends javax.swing.JFrame {
             if (!palabraGuiones.contains("_")) {
                 fallos = -1;
                 dibujaImg();
+                gameOver = true;
             }
         } else {
             fallos++;
+            if(fallos == 6){
+                gameOver = true;
+            }
             dibujaImg();
         }
 
@@ -104,10 +111,6 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     /**
      * Creates new form VentanaAhorcado
      */
-    
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
